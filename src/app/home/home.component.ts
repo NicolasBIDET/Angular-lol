@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { ChampionService } from '../service/champion.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -11,16 +12,21 @@ import { ChampionService } from '../service/champion.service';
 export class HomeComponent implements OnInit {
   user: any = null;
   champions: any[] = [];
-  searchTerm: string = '';
-  selectedType: string = '';
-  selectedPartype: string = '';
-  
+  filterForm: FormGroup;
 
   constructor(
     private afAuth: AngularFireAuth,
     private router: Router,
-    private championService: ChampionService
-  ) {}
+    private championService: ChampionService,
+    private fb: FormBuilder // FormBuilder pour simplifier la création du FormGroup
+  ) {
+    // Initialiser le FormGroup
+    this.filterForm = this.fb.group({
+      searchTerm: [''],
+      type: [''],
+      selectedPartype: ['']
+    });
+  }
 
   ngOnInit() {
     this.afAuth.authState.subscribe(user => {
@@ -48,11 +54,15 @@ export class HomeComponent implements OnInit {
   }
 
   filteredChampions() {
+    const searchTerm = this.filterForm.get('searchTerm')?.value.toLowerCase() || '';
+    const selectedType = this.filterForm.get('type')?.value || '';
+    const selectedPartype = this.filterForm.get('selectedPartype')?.value || '';
+
     return this.champions.filter(champion => {
-      const matchesSearchTerm = champion.name.toLowerCase().includes(this.searchTerm.toLowerCase());
-      const matchesType = this.selectedType ? champion.tags.includes(this.selectedType) : true;
-      const matchesPartype = this.selectedPartype === 'mana' ? champion.partype.toLowerCase().includes('mana') : 
-                             this.selectedPartype === 'no-mana' ? !champion.partype.toLowerCase().includes('mana') : true;
+      const matchesSearchTerm = champion.name.toLowerCase().includes(searchTerm);
+      const matchesType = selectedType ? champion.tags.includes(selectedType) : true;
+      const matchesPartype = selectedPartype === 'mana' ? champion.partype.toLowerCase().includes('mana') :
+                             selectedPartype === 'no-mana' ? !champion.partype.toLowerCase().includes('mana') : true;
       return matchesSearchTerm && matchesType && matchesPartype;
     });
   }

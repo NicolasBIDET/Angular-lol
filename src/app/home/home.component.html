@@ -4,18 +4,24 @@
   <button (click)="logout()">Logout</button>
 
   <h2>Champions List</h2>
-  <input type="text" placeholder="Search champions..." [(ngModel)]="searchTerm">
-  
-  <select [(ngModel)]="selectedType">
-    <option value="">All Types</option>
-    <option *ngFor="let type of getChampionTypes()" [value]="type">{{ type }}</option>
-  </select>
-  <select [(ngModel)]="selectedPartype">
-    <option value="">All Partypes</option>
-    <option value="mana">Mana</option>
-    <option value="no-mana">No Mana</option>
-  </select>
 
+  <!-- Formulaire Reactif -->
+  <form [formGroup]="filterForm">
+    <input type="text" placeholder="Search champions..." formControlName="searchTerm">
+
+    <select formControlName="type">
+      <option value="">All Types</option>
+      <option *ngFor="let type of getChampionTypes()" [value]="type">{{ type }}</option>
+    </select>
+
+    <select formControlName="selectedPartype">
+      <option value="">All Partypes</option>
+      <option value="mana">Mana</option>
+      <option value="no-mana">No Mana</option>
+    </select>
+  </form>
+
+  <!-- Liste des champions -->
   <div class="champion-cards">
     <div class="champion-card" *ngFor="let champion of filteredChampions()" (click)="viewChampionDetails(champion.id)">
       <img [src]="'https://ddragon.leagueoflegends.com/cdn/14.23.1/img/champion/' + champion.id + '.png'" alt="{{ champion.name }}">

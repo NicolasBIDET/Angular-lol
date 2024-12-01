@@ -17,7 +17,7 @@
   </select>
 
   <div class="champion-cards">
-    <div class="champion-card" *ngFor="let champion of filteredChampions()" (click)="viewChampionDetails(champion.id)">
+    <div class="champion-card" *ngFor="let champion of filteredChampions()" (click)="viewChampionDetails(champion.id)" appHighlight>
       <img [src]="'https://ddragon.leagueoflegends.com/cdn/14.23.1/img/champion/' + champion.id + '.png'" alt="{{ champion.name }}">
       <h3>{{ champion.name }}</h3>
     </div>

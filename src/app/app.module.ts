@@ -23,6 +23,8 @@ import { ChampionDetailComponent } from './champion-detail/champion-detail.compo
 import { ChampionSummaryComponent } from './champion-summary/champion-summary.component';
 import { ForumComponent } from './forum/forum.component';
 import { AuthService } from './auth.service';
+import { HighlightDirective } from './directive/highlight.directive';
+
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { AuthService } from './auth.service';
     FilterPipe,
     ChampionDetailComponent,
     ChampionSummaryComponent,
-    ForumComponent
+    ForumComponent,
+    HighlightDirective
   ],
   imports: [
     BrowserModule,

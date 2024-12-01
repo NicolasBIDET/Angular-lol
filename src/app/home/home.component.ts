@@ -12,6 +12,9 @@ export class HomeComponent implements OnInit {
   user: any = null;
   champions: any[] = [];
   searchTerm: string = '';
+  selectedType: string = '';
+  selectedPartype: string = '';
+  
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -33,6 +36,24 @@ export class HomeComponent implements OnInit {
   loadChampions() {
     this.championService.getChampions().subscribe(data => {
       this.champions = Object.values(data.data);
+    });
+  }
+
+  getChampionTypes(): string[] {
+    const types = new Set<string>();
+    this.champions.forEach(champion => {
+      champion.tags.forEach((tag: string) => types.add(tag));
+    });
+    return Array.from(types);
+  }
+
+  filteredChampions() {
+    return this.champions.filter(champion => {
+      const matchesSearchTerm = champion.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+      const matchesType = this.selectedType ? champion.tags.includes(this.selectedType) : true;
+      const matchesPartype = this.selectedPartype === 'mana' ? champion.partype.toLowerCase().includes('mana') : 
+                             this.selectedPartype === 'no-mana' ? !champion.partype.toLowerCase().includes('mana') : true;
+      return matchesSearchTerm && matchesType && matchesPartype;
     });
   }
 

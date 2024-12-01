@@ -14,17 +14,15 @@
                 <p><strong>{{ comment.user }}</strong> : {{ comment.commentaire }}</p>
                 <small>{{ comment.date_creation.toDate() | date: 'long' }}</small>
 
-                <!-- Icône de crayon visible uniquement si c'est l'utilisateur connecté -->
                 <div *ngIf="comment.user === currentUserEmail" class="edit-icon">
                     <button (click)="toggleEditMode(i)">
                         <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                     </button>
-                    <button (click)="deleteComment(comment.id)">
+                    <button (click)="openDeleteModal(comment.id)">
                         <i class="fa fa-trash" aria-hidden="true"></i>
                     </button>
                 </div>
 
-            <!-- Zone d'édition affichée uniquement si le mode édition est actif -->
                 <div *ngIf="editIndex === i" class="edit-section">
                     <textarea [(ngModel)]="comment.commentaire"></textarea>
                     <button (click)="updateComment(comment.id, comment.commentaire)">Modifier</button>
@@ -33,5 +31,10 @@
             </div>
         </div>
     </div>
+    <app-confirm-modal 
+        *ngIf="showDeleteModal" 
+        [message]="'Êtes-vous sûr de vouloir supprimer ce commentaire ?'"
+        (confirm)="onDeleteConfirmed($event)">
+    </app-confirm-modal>
 </div>
   

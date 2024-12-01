@@ -14,8 +14,10 @@ export class ForumComponent implements OnInit {
   champion: any;
   comments: any[] = [];
   newComment = '';
-  editIndex: number | null = null; // Gère le mode édition
-  currentUserEmail: string | null = null; // Stocke l'e-mail de l'utilisateur connecté
+  editIndex: number | null = null;
+  currentUserEmail: string | null = null;
+  showDeleteModal: boolean = false;
+  commentToDelete: string | null = null;
 
 
   constructor(
@@ -28,7 +30,6 @@ export class ForumComponent implements OnInit {
   ngOnInit() {
     const championId = this.route.snapshot.paramMap.get('id');
     if (championId) {
-      // Charger les détails du champion
       this.championService.getChampionDetails(championId).subscribe((data) => {
         this.champion = data.data[championId];
         this.loadComments();
@@ -41,7 +42,6 @@ export class ForumComponent implements OnInit {
     });
   }
 
-  // Charger les commentaires
   loadComments() {
     if (this.champion) {
       this.commentService.getComments(this.champion.id).subscribe((comments) => {
@@ -50,7 +50,6 @@ export class ForumComponent implements OnInit {
     }
   }
 
-  // Ajouter un commentaire
   async addComment() {
     if (this.newComment.trim()) {
       try {
@@ -62,11 +61,10 @@ export class ForumComponent implements OnInit {
     }
   }
 
-  // Modifier un commentaire
   async updateComment(id: string, newComment: string) {
     try {
       await this.commentService.updateComment(id, newComment);
-      this.editIndex = null; // Sortie du mode édition
+      this.editIndex = null;
     } catch (error) {
       console.error(error);
     }
@@ -75,17 +73,30 @@ export class ForumComponent implements OnInit {
   async deleteComment(id: string) {
     try {
       await this.commentService.deleteComment(id);
-      this.comments = this.comments.filter((comment) => comment.id !== id); // Mise à jour locale
+      this.comments = this.comments.filter((comment) => comment.id !== id);
     } catch (error) {
       console.error(error);
     }
   }
 
   toggleEditMode(index: number) {
-    this.editIndex = this.editIndex === index ? null : index; // Active ou désactive le mode édition
+    this.editIndex = this.editIndex === index ? null : index;
   }
 
   cancelEdit() {
-    this.editIndex = null; // Annule le mode édition
+    this.editIndex = null;
+  }
+
+  openDeleteModal(commentId: string) {
+    this.commentToDelete = commentId;
+    this.showDeleteModal = true;
+  }
+
+  onDeleteConfirmed(confirm: boolean) {
+    this.showDeleteModal = false;
+    if (confirm && this.commentToDelete) {
+      this.deleteComment(this.commentToDelete);
+      this.commentToDelete = null;
+    }
   }
 }

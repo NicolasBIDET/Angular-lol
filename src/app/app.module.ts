@@ -24,6 +24,7 @@ import { ChampionSummaryComponent } from './champion-summary/champion-summary.co
 import { ForumComponent } from './forum/forum.component';
 import { AuthService } from './auth.service';
 import { HighlightDirective } from './directive/highlight.directive';
+import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { HighlightDirective } from './directive/highlight.directive';
     ChampionDetailComponent,
     ChampionSummaryComponent,
     ForumComponent,
-    HighlightDirective
+    HighlightDirective,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,

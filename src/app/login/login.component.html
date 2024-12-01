@@ -1,0 +1,32 @@
+<div class="login-container">
+  <h2>Login</h2>
+  <form (submit)="login()">
+    <div>
+      <label>Email</label>
+      <input 
+        type="email" 
+        [(ngModel)]="email" 
+        name="email" 
+        [disabled]="isLocked" 
+        required 
+      />
+    </div>
+    <div>
+      <label>Password</label>
+      <input 
+        type="password" 
+        [(ngModel)]="password" 
+        name="password" 
+        [disabled]="isLocked" 
+        required 
+      />
+    </div>
+    <div *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
+    </div>
+    <button type="submit">Login</button>
+  </form>
+  <p>
+    Don't have an account? <a routerLink="/register">Register here</a>
+  </p>
+</div>

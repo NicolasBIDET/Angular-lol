@@ -1,0 +1,14 @@
+<div class="home-container">
+  <h1>Welcome to the Home Page!</h1>
+  <p *ngIf="user">Hello, {{ user.email }}</p>
+  <button (click)="logout()">Logout</button>
+
+  <h2>Champions List</h2>
+  <input type="text" placeholder="Search champions..." [(ngModel)]="searchTerm">
+  <div class="champion-cards">
+    <div class="champion-card" *ngFor="let champion of champions | filter:searchTerm" (click)="viewChampionDetails(champion.id)">
+      <img [src]="'https://ddragon.leagueoflegends.com/cdn/14.23.1/img/champion/' + champion.id + '.png'" alt="{{ champion.name }}">
+      <h3>{{ champion.name }}</h3>
+    </div>
+  </div>
+</div>

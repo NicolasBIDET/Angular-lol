@@ -1,0 +1,37 @@
+<div *ngIf="champion" class="champion-detail">
+    <app-champion-summary [champion]="champion"></app-champion-summary>
+  
+    <h2>Commentaires</h2>
+    <div class="comment-section">
+        <div class="add-comment">
+            <textarea [(ngModel)]="newComment" placeholder="Ajoutez un commentaire"></textarea>
+            <button (click)="addComment()">Publier</button>
+        </div>
+        <br>
+  
+        <div *ngIf="comments.length > 0" class="comments-list">
+            <div *ngFor="let comment of comments; let i = index" class="comment-item">
+                <p><strong>{{ comment.user }}</strong> : {{ comment.commentaire }}</p>
+                <small>{{ comment.date_creation.toDate() | date: 'long' }}</small>
+
+                <!-- Icône de crayon visible uniquement si c'est l'utilisateur connecté -->
+                <div *ngIf="comment.user === currentUserEmail" class="edit-icon">
+                    <button (click)="toggleEditMode(i)">
+                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                    </button>
+                    <button (click)="deleteComment(comment.id)">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+            <!-- Zone d'édition affichée uniquement si le mode édition est actif -->
+                <div *ngIf="editIndex === i" class="edit-section">
+                    <textarea [(ngModel)]="comment.commentaire"></textarea>
+                    <button (click)="updateComment(comment.id, comment.commentaire)">Modifier</button>
+                    <button (click)="cancelEdit()">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  

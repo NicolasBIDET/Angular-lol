@@ -1,0 +1,50 @@
+<div *ngIf="champion" class="champion-detail">
+  <app-champion-summary [champion]="champion"></app-champion-summary>
+  
+  <button (click)="forum(champion.id)">Go to forum</button>
+  <h2>Skins</h2>
+  <div class="carousel">
+    <div class="carousel-inner" [style.transform]="'translateX(' + currentSlide * -100 + '%)'">
+      <div class="carousel-item" *ngFor="let skin of champion.skins">
+        <img [src]="'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' + champion.id + '_' + skin.num + '.jpg'" alt="{{ skin.name }}">
+        <p>{{ skin.name }}</p>
+      </div>
+    </div>
+    <button class="carousel-control prev" (click)="prevSlide()">&#10094;</button>
+    <button class="carousel-control next" (click)="nextSlide()">&#10095;</button>
+  </div>
+
+  <h2>Tips for Allies</h2>
+  <ul>
+    <li *ngFor="let tip of champion.allytips">{{ tip }}</li>
+  </ul>
+
+  <h2>Tips for Enemies</h2>
+  <ul>
+    <li *ngFor="let tip of champion.enemytips">{{ tip }}</li>
+  </ul>
+
+  <h2>Stats</h2>
+  <ul>
+    <li>HP: {{ champion.stats.hp }}</li>
+    <li>Attack Damage: {{ champion.stats.attackdamage }}</li>
+    <li>Armor: {{ champion.stats.armor }}</li>
+    <!-- Ajoutez d'autres statistiques ici -->
+  </ul>
+
+  <h2>Abilities</h2>
+  <div class="abilities">
+    <div class="ability" (click)="toggleDescription('passive')">
+      <h3>{{ champion.passive.name }}</h3>
+      <img [src]="'https://ddragon.leagueoflegends.com/cdn/14.23.1/img/passive/' + champion.passive.image.full" alt="{{ champion.passive.name }}">
+    </div>
+    <div *ngFor="let spell of champion.spells; let i = index" class="ability" (click)="toggleDescription(i)">
+      <h3>{{ spell.name }}</h3>
+      <img [src]="'https://ddragon.leagueoflegends.com/cdn/14.23.1/img/spell/' + spell.image.full" alt="{{ spell.name }}">
+    </div>
+  </div>
+  <div *ngIf="activeDescriptionIndex !== null" class="description">
+    <p *ngIf="activeDescriptionIndex === 'passive'">{{ champion.passive.description }}</p>
+    <p *ngIf="activeDescriptionIndex !== 'passive'">{{ champion.spells[activeDescriptionIndex].description }}</p>
+  </div>
+</div>

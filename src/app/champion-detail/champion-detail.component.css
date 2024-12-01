@@ -1,0 +1,100 @@
+.champion-detail {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .champion-detail h1 {
+    text-align: center;
+  }
+  
+  .champion-detail img {
+    display: block;
+    margin: 0 auto 20px;
+    max-width: 100%;
+  }
+
+  .champion-detail button {
+    align-self: center;
+  }
+  
+  .champion-detail h2 {
+    margin-top: 20px;
+  }
+  
+  .champion-detail ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .champion-detail ul li {
+    background: #f9f9f9;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  .champion-detail .abilities {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .champion-detail .ability {
+    cursor: pointer;
+    text-align: center;
+    margin: 10px;
+  }
+  
+  .champion-detail .ability img {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .champion-detail .description {
+    margin-top: 20px;
+  }
+  
+  .carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+  
+  .carousel-item {
+    min-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .carousel img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+  }
+  
+  .carousel-control.prev {
+    left: 10px;
+  }
+  
+  .carousel-control.next {
+    right: 10px;
+  }
